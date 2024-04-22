@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorPrimary">#212121</color>
+    <color name="colorAccent">#000000</color>
+    <color name="app_main_color">#02C2FF</color>
+    <color name="orange">#FF5722</color>
+    <color name="month_one">#F6FFC2</color>
+    <color name="month_six">#FFD8D8</color>
+    <color name="dark_down">#042A53</color>
+    <color name="dark_top">#063970</color>
+    <color name="green">#10DF0B</color>
+    <color name="user1">#DCFBB7</color>
+    <color name="user2">#D8EAF8</color>
+    <color name="gray100">#f5f5f5</color>
+    <color name="gray300">#e0e0e0</color>
+    <color name="gray350">#d7d7d7</color>
+    <color name="gray450">#a5a5a5</color>
+    <color name="gray50">#fafafa</color>
+    <color name="gray600">#757575</color>
+    <color name="gray800">#424242</color>
+    <color name="gray850">#303030</color>
+    <color name="gray900">#212121</color>
+    <color name="gray">#A4A4A4</color>
+    <color name="blue">#4D68FF</color>
+    <color name="infoAppBackground">#21252F</color>
+    <color name="infoQuizBarColor1">#003966</color>
+    <color name="infoQuizBarColor11">#B3003966</color>
+    <color name="infoQuizBarColor2">#3F9CFB</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="colorNull">#fafafa</color>
+    <color name="red">#F44336</color>
+</resources>

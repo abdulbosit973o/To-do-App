@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#fefeff">
+
+    <TextView
+        android:id="@+id/title_add_marker"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/app_main_color"
+        android:text="New Task"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:fontFamily="@font/uzum_bold"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/back_market_btn"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:src="@drawable/ic_back"
+        android:padding="16dp"
+        />
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/btn_accept"
+
+        app:layout_constraintVertical_bias="0.0"
+        android:padding="1dp">
+
+
+    </ScrollView>
+
+    <EditText
+        android:id="@+id/et_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/uzum"
+        android:paddingEnd="56dp"
+        android:layout_marginBottom="7dp"
+        android:background="@drawable/bg_add_market_editer"
+        android:hint="Enter task here"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="22dp"
+        app:layout_constraintTop_toBottomOf="@id/title_add_marker"
+        android:textColor="@color/black" />
+
+    <ImageView
+        android:id="@+id/voice"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:padding="16dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintEnd_toEndOf="@id/et_address"
+        app:layout_constraintTop_toTopOf="@id/et_address"
+        app:layout_constraintBottom_toBottomOf="@+id/et_address"
+        android:src="@drawable/voice"/>
+
+    <TextView
+        android:id="@+id/datePicker"
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="7dp"
+        android:fontFamily="@font/uzum"
+        android:background="@drawable/bg_add_market_editer"
+        android:hint="Date not set"
+        android:paddingHorizontal="20dp"
+        app:drawableEndCompat="@drawable/baseline_date_range_24"
+        android:gravity="center|start"
+        app:layout_constraintTop_toBottomOf="@id/et_address"
+        android:textSize="18sp"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/timePicker"
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="7dp"
+        android:background="@drawable/bg_add_market_editer"
+        android:hint="Time not set"
+        android:fontFamily="@font/uzum"
+        android:paddingHorizontal="20dp"
+        app:drawableEndCompat="@drawable/baseline_access_time_24"
+        android:gravity="center|start"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/datePicker"
+        android:textColor="@color/black"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_accept"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/bg_add_market_accept"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="24dp"
+        android:text="Add"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:fontFamily="@font/uzum_bold"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
