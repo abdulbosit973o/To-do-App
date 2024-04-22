@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.GravityInt
@@ -17,7 +18,7 @@ fun Dialog.setDialogConfigurations(cancelable:Boolean, @GravityInt gravity:Int) 
     this.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 //    this.window?.setWindowAnimations() // Your animation
 }
-//fun String.myLog(tag: String = "TTT") = Timber.tag(tag).d(this)
+fun String.myLog(tag: String = "TTT") = Log.d(tag, this)
 
 fun Context.toToast(msg: String) = Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
 fun String.toToast(context: Context) = Toast.makeText(context, this, Toast.LENGTH_SHORT).show()

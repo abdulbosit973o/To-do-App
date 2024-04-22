@@ -30,6 +30,7 @@ import androidx.work.WorkerParameters
 import uz.abdulbosit.apps.to_do_app.HomeActivity
 import uz.abdulbosit.apps.to_do_app.extension.vectorToBitmap
 import uz.abdulbosit.apps.to_do_app.R
+import uz.abdulbosit.apps.to_do_app.utils.myLog
 import java.util.UUID
 
 class NotifyWork(context: Context, params: WorkerParameters) : Worker(context, params) {
@@ -88,9 +89,11 @@ class NotifyWork(context: Context, params: WorkerParameters) : Worker(context, p
     }
 
     companion object {
-        fun cancelJobById(id: UUID, context: Context) {
+        fun cancelJobsByTag(tag: String, context: Context) {
             val workManager = WorkManager.getInstance(context)
-            workManager.cancelWorkById(id)
+            workManager.cancelAllWorkByTag(tag)
+
+            "cancelJobsByTag $tag".myLog()
         }
         const val NOTIFICATION_ID = "appName_notification_id"
         const val NOTIFICATION_NAME = "appName"

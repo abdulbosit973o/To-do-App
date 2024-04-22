@@ -32,6 +32,7 @@ import uz.abdulbosit.apps.to_do_app.domain.AppRepositoryImpl
 import uz.abdulbosit.apps.to_do_app.utils.setDialogConfigurations
 import uz.abdulbosit.apps.to_do_app.work.NotifyWork
 import uz.abdulbosit.apps.to_do_app.databinding.ActivityAddBinding
+import uz.abdulbosit.apps.to_do_app.utils.myLog
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -164,6 +165,9 @@ class AddActivity : AppCompatActivity(R.layout.activity_add) {
                         ).format(customCalendar.time).toString(),
                         Snackbar.LENGTH_LONG
                     ).show()
+
+                    "add activity cancelJobsByTag $tag".myLog()
+
                     repositoryImpl.addTodoToRoom(
                         ToDoData(
                             todo = binding.etAddress.text.toString(),
@@ -202,7 +206,7 @@ class AddActivity : AppCompatActivity(R.layout.activity_add) {
 
         val instanceWorkManager = WorkManager.getInstance(this)
         instanceWorkManager.beginUniqueWork(
-            NotifyWork.NOTIFICATION_WORK,
+            tag.toString(),
             ExistingWorkPolicy.APPEND, notificationWork
         ).enqueue()
 
