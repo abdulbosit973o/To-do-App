@@ -13,7 +13,7 @@ import ru.ifr0z.notify.data.source.local.impl.MySharedPrefImpl
 import uz.abdulbosit.apps.to_do_app.databinding.ItemLavozimBinding
 import java.util.Calendar
 
-class ExploreAdapter : ListAdapter<ToDoUIData, ExploreAdapter.ViewHolder>(diffUtil) {
+class FinishedAdapter : ListAdapter<ToDoUIData, FinishedAdapter.ViewHolder>(diffUtil) {
 
     private lateinit var clickBookListener: ((ToDoUIData) -> Unit)
     private lateinit var clickItemListener: ((ToDoUIData) -> Unit)
@@ -58,7 +58,7 @@ class ExploreAdapter : ListAdapter<ToDoUIData, ExploreAdapter.ViewHolder>(diffUt
                 val customTime = customCalendar.timeInMillis
                 val currentTime = System.currentTimeMillis()
                 if (customTime < currentTime) {
-                    textDescription.setTextColor(Color.parseColor("#F44336"))
+
                 }
                 else {
                     textDescription.setTextColor(Color.parseColor("#a5a5a5"))

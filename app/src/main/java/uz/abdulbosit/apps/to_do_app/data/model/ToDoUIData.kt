@@ -9,4 +9,6 @@ data class ToDoUIData(
     val time:String,
     val isFinished:Int,
     val jobId:UUID
-)
+) {
+
+}

@@ -26,11 +26,12 @@
                 android:layout_marginStart="16dp"
                 android:elevation="4dp"
                 android:fontFamily="@font/uzum_bold"
-                android:text="To do"
+                android:text="@string/finished_tasks"
                 android:textColor="@color/white"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@id/appBarFinish"
+
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
@@ -38,14 +39,15 @@
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:visibility="visible"
-                android:background="?selectableItemBackgroundBorderless"
-                android:src="@drawable/finish"
+                android:src="@drawable/ic_back"
                 android:textSize="24sp"
+                android:background="?selectableItemBackgroundBorderless"
                 android:padding="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:tint="@color/white" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -109,19 +111,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv1_placeholder" />
 
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_market_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="@color/app_main_color"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:shapeAppearanceOverlay="@style/circularFab"
-        app:srcCompat="@drawable/ic_add"
-        app:tint="@color/white" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

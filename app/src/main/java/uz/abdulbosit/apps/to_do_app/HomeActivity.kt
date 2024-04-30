@@ -27,15 +27,28 @@ class HomeActivity() : AppCompatActivity(R.layout.activity_home) {
             startActivity(intent)
         }
         adapter.setClickBookListener {
-            //
+            NotifyWork.cancelJobsByTag(it.jobId.toString(), this)
+            repositoryImpl.editToRoom(it)
             Snackbar.make(
                 binding.root,
-                "Task canceling is not working at the moment. This is cancelling only room",
+                "Cancelling succeed",
                 Snackbar.LENGTH_LONG
             ).show()
-            NotifyWork.cancelJobsByTag(it.jobId.toString(), this)
-            repositoryImpl.deleteBookInRoom(it.id)
             onResume()
+        }
+        adapter.setClickItemListener {
+            val intent = Intent(this@HomeActivity, EditActivity::class.java)
+            intent.putExtra("date", it.date)
+            intent.putExtra("time", it.time)
+            intent.putExtra("todo", it.todo)
+            intent.putExtra("jobId", it.jobId.toString())
+            intent.putExtra("id", it.id.toString())
+            intent.putExtra("isFinished", it.isFinished.toString())
+            startActivity(intent)
+        }
+        binding.appBarFinish.setOnClickListener {
+            val intent = Intent(this@HomeActivity, FinishActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -51,6 +64,9 @@ class HomeActivity() : AppCompatActivity(R.layout.activity_home) {
             binding.imgPlaceholder.gone()
             binding.tv1Placeholder.gone()
             binding.tv2Placeholder.gone()
+        }
+        list.sortedBy {
+           it.id
         }
         adapter.submitList(list)
     }

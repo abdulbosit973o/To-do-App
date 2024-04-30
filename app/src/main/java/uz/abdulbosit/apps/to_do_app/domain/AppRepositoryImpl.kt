@@ -36,6 +36,19 @@ class AppRepositoryImpl : AppRepository {
         }
     }
 
+    override fun getAllBooksFromRoomFinish(): List<ToDoUIData> {
+        val ls = booksDao.getAllBooksFromLocalFinished()
+        return if (ls.isNotEmpty()) {
+            val list = ArrayList<ToDoUIData>()
+            ls.forEach {
+                list.add(it.toToDoUIData())
+            }
+            list
+        } else {
+            emptyList()
+        }
+    }
+
 
     override fun deleteBookInRoom(id: Long) {
         booksDao.deleteToDo(id)
@@ -43,5 +56,13 @@ class AppRepositoryImpl : AppRepository {
 
     override fun addTodoToRoom(toDoData: ToDoData) {
         booksDao.insertBooks(toDoData.toBookEntity())
+    }
+
+    override fun editToRoom(taskID: Long, toDoData: ToDoData) {
+        booksDao.updateBooks(toDoData.toBookEntity(taskID))
+    }
+
+    override fun editToRoom(taskID: ToDoUIData) {
+        booksDao.updateBooks(taskID.toBookEntity(if (taskID.isFinished == 1) 0 else 1))
     }
 }

@@ -28,19 +28,23 @@ import androidx.work.WorkManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.snackbar.Snackbar
 import uz.abdulbosit.apps.to_do_app.data.model.ToDoData
+import uz.abdulbosit.apps.to_do_app.databinding.ActivityEditBinding
 import uz.abdulbosit.apps.to_do_app.domain.AppRepositoryImpl
-import uz.abdulbosit.apps.to_do_app.utils.setDialogConfigurations
-import uz.abdulbosit.apps.to_do_app.work.NotifyWork
-import uz.abdulbosit.apps.to_do_app.databinding.ActivityAddBinding
 import uz.abdulbosit.apps.to_do_app.utils.myLog
+import uz.abdulbosit.apps.to_do_app.utils.setDialogConfigurations
+import uz.abdulbosit.apps.to_do_app.utils.toToast
+import uz.abdulbosit.apps.to_do_app.work.NotifyWork
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import java.util.UUID
 import java.util.concurrent.TimeUnit
 
-class AddActivity : AppCompatActivity(R.layout.activity_add) {
-    private val binding by viewBinding(ActivityAddBinding::bind)
+
+class EditActivity : AppCompatActivity(R.layout.activity_edit) {
+    private var isFinished: Int = 0
+    private var taskID: Long = 0
+    private val binding by viewBinding(ActivityEditBinding::bind)
     private lateinit var dialog: Dialog
     private var year = 0
     private var month = 0
@@ -48,6 +52,7 @@ class AddActivity : AppCompatActivity(R.layout.activity_add) {
     private var hour = 0
     private var minute = 0
     private val REQ_CODE_SPEECH_INPUT = 100
+    private var tag: String = ""
     private var tts: TextToSpeech? = null
     private lateinit var checkNotificationPermission: ActivityResultLauncher<String>
     private var isPermission = false
@@ -55,6 +60,48 @@ class AddActivity : AppCompatActivity(R.layout.activity_add) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         dialog = Dialog(this)
+        val date = intent.getStringExtra("date")
+        val time = intent.getStringExtra("time")
+        val todo = intent.getStringExtra("todo")
+        val jobId = intent.getStringExtra("jobId")
+        val id = intent.getStringExtra("id")
+        val isFinish = intent.getStringExtra("isFinished")
+        id.toString().toToast(this)
+
+        isFinished = isFinish?.toInt()!!
+        taskID = id?.toLong()!!
+        year = date?.substring(6)?.toInt()!!
+        month = date.substring(3, 5).toInt()
+        dayOfMonth = date.substring(0, 2).toInt()
+        hour = time?.substring(0, 2)?.toInt()!!
+        minute = time.substring(3).toInt()
+
+        tag = jobId.toString()
+        binding.datePicker.text = date
+        binding.timePicker.text = time
+        binding.etAddress.setText(todo)
+        binding.etAddress.setText(todo)
+        binding.checkbox.isChecked = isFinished == 1
+        binding.checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
+            isFinished = if (isChecked) 1 else 0
+            binding.checkbox.isChecked = isChecked
+        }
+        binding.deleteMarketBtn.setOnClickListener {
+            repositoryImpl.deleteBookInRoom(taskID)
+            finish()
+        }
+
+        binding.shareMarketBtn.setOnClickListener {
+            val intent = Intent(Intent.ACTION_SEND)
+            val shareBody = "$todo \nDownload app here\n\nhttps://play.google.com/store/apps/details?id=\"uz.abdulbosit.apps.to_do_app"
+            intent.setType("text/plain")
+            intent.putExtra(
+                Intent.EXTRA_SUBJECT,
+                getString(R.string.app_name)
+            )
+            intent.putExtra(Intent.EXTRA_TEXT, shareBody)
+            startActivity(Intent.createChooser(intent, getString(R.string.app_name)))
+        }
 
         checkNotificationPermission = registerForActivityResult(
             ActivityResultContracts.RequestPermission()
@@ -153,7 +200,7 @@ class AddActivity : AppCompatActivity(R.layout.activity_add) {
                 if (customTime > currentTime) {
                     val data = Data.Builder().putInt(NotifyWork.NOTIFICATION_ID, 0).build()
                     val delay = customTime - currentTime
-                    val tag = scheduleNotification(delay, data)
+                    scheduleNotification(delay, data)
 
                     val titleNotificationSchedule = getString(R.string.notification_schedule_title)
                     val patternNotificationSchedule =
@@ -168,13 +215,13 @@ class AddActivity : AppCompatActivity(R.layout.activity_add) {
 
                     "add activity cancelJobsByTag $tag".myLog()
 
-                    repositoryImpl.addTodoToRoom(
-                        ToDoData(
+                    repositoryImpl.editToRoom(
+                        taskID, ToDoData(
                             todo = binding.etAddress.text.toString(),
                             date = "${pad(dayOfMonth)}.${pad(month)}.${pad(year)}",
                             time = "${pad(hour)}:${pad(minute)}",
-                            isFinished = 0,
-                            jobId = tag
+                            isFinished = isFinished,
+                            jobId = UUID.fromString(tag)
                         )
                     )
                     finish()
@@ -194,24 +241,21 @@ class AddActivity : AppCompatActivity(R.layout.activity_add) {
         }
     }
 
-    private fun scheduleNotification(delay: Long, data: Data):UUID {
-        val tag = UUID.randomUUID()
-        val notificationWork = OneTimeWorkRequest.Builder(NotifyWork::class.java)
-            .addTag(tag.toString())
-            .setInitialDelay(delay, TimeUnit.MILLISECONDS).setInputData(data).build()
+    private fun scheduleNotification(delay: Long, data: Data): UUID {
+        if (isFinished == 0) {
+            val notificationWork = OneTimeWorkRequest.Builder(NotifyWork::class.java)
+                .addTag(tag)
+                .setInitialDelay(delay, TimeUnit.MILLISECONDS).setInputData(data).build()
 
-        val id = notificationWork.id
+            // mana bu yerda work ning jobId sini olib room ga saqlayabman
 
-        // mana bu yerda work ning jobId sini olib room ga saqlayabman
-
-        val instanceWorkManager = WorkManager.getInstance(this)
-
-        instanceWorkManager.beginUniqueWork(
-            tag.toString(),
-            ExistingWorkPolicy.APPEND, notificationWork
-        ).enqueue()
-
-        return tag
+            val instanceWorkManager = WorkManager.getInstance(this)
+            instanceWorkManager.beginUniqueWork(
+                tag,
+                ExistingWorkPolicy.REPLACE, notificationWork
+            ).enqueue()
+        }
+        return UUID.fromString(tag)
     }
 
     private fun checkPermission() {

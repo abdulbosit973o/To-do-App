@@ -57,4 +57,8 @@ dependencies {
     implementation("androidx.room:room-ktx:2.6.1")
 
     implementation("com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.9")
+
+
+    //image picker
+    implementation("com.github.Drjacky:ImagePicker:2.1.16")
 }

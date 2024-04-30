@@ -9,4 +9,5 @@
     <string name="notification_schedule_error">
         Schedule notification: Incorrect Date and Time
     </string>
+    <string name="finished_tasks">Finished Tasks</string>
 </resources>
